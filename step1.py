@@ -1,6 +1,6 @@
 """
 ME32012 Wing Panel Design - Part (i), Step 1: element geometry
-SAAB 340, Group C. Elements numbered 1 (root) to 7 (tip), tabulated tip -> root.
+SAAB 340, Group E (element 6). Elements numbered 1 (root) to 7 (tip), tabulated tip -> root.
 """
 import pandas as pd
 
@@ -41,8 +41,10 @@ geo = pd.DataFrame(rows).set_index("element").sort_index(ascending=False)  # tip
 # ---- Checks ----
 A_wing = geo["A"].sum()
 A_fus = y_body * c_body
-print(geo.round(3).to_string())
-print(f"\nSemi-span (tip from centreline): {y_tip:.2f} m")
-print(f"Sum of element areas (one wing): {A_wing:.3f} m^2   (expect 18.13)")
-print(f"+ fuselage rectangle {A_fus:.2f} m^2 = {A_wing + A_fus:.3f} m^2   (expect S/2 = {S/2:.2f})")
 assert abs(A_wing + A_fus - S / 2) < 1e-6, "Geometry does not reproduce S/2"
+
+if __name__ == "__main__":
+    print(geo.round(3).to_string())
+    print(f"\nSemi-span (tip from centreline): {y_tip:.2f} m")
+    print(f"Sum of element areas (one wing): {A_wing:.3f} m^2   (expect 18.13)")
+    print(f"+ fuselage rectangle {A_fus:.2f} m^2 = {A_wing + A_fus:.3f} m^2   (expect S/2 = {S/2:.2f})")
