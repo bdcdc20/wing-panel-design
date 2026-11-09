@@ -14,6 +14,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from safe_save import save_csv, save_fig
 from step2_loads import M6, Nx as Nx_from_M, c6
 
 # ---- Data ----
@@ -133,7 +134,7 @@ if __name__ == "__main__":
     print(f"\nBrute-force check (free t_sk, t_st): m = {mg:.3f} kg/m^2 at "
           f"b_st = {bg:.1f}, t_sk = {tg:.3f}, t_st = {sg:.3f}")
 
-    sweep.to_csv("panel_sweep.csv", index=False, float_format="%.4f")
+    save_csv(sweep, "panel_sweep.csv", index=False, float_format="%.4f")
 
     # ---- Figure: mass and reserve factors vs b_st (two panels, shared x, one y-scale each) ----
     blue, orange, ink, muted = "#2a78d6", "#eb6834", "#222222", "#8a8a85"
@@ -179,5 +180,5 @@ if __name__ == "__main__":
                   f"b$_{{sk}}$ = 200 mm, rib pitch 600 mm, equal skin/stiffener buckling strain",
                   fontsize=10)
     fig.tight_layout()
-    fig.savefig("fig_panel_optimisation.png", dpi=200)
+    save_fig(fig, "fig_panel_optimisation.png", dpi=200)
     print("\nSaved panel_sweep.csv, fig_panel_optimisation.png")

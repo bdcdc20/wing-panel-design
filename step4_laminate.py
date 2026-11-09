@@ -19,6 +19,7 @@ import math
 import numpy as np
 
 import step3_panel as s3
+from safe_save import save_json
 from step3_panel import props, feasible, E11, bsk, m_Al, Nx
 
 T_PLY = 0.125                     # mm
@@ -239,11 +240,11 @@ if __name__ == "__main__":
           f"{100*(p['mass']/opt['mass']-1):.1f} %)")
     print(f"Saving vs aluminium {m_Al} kg/m²: {100*(1-p['mass']/m_Al):.1f} %")
 
-    json.dump(dict(bst=b_fin, bsk=bsk, bf=s3.bf, tsk=sk["t"], tst=st["t"],
+    save_json(dict(bst=b_fin, bsk=bsk, bf=s3.bf, tsk=sk["t"], tst=st["t"],
                    skin=dict(n0=sk["n0"], n45=sk["n45"], n90=sk["n90"], E=sk["E"], stack=seq_sk,
                              notation=notation(seq_sk)),
                    stiffener=dict(n0=st["n0"], n45=st["n45"], n90=st["n90"], E=st["E"],
                                   stack=seq_st, notation=notation(seq_st)),
                    mass=p["mass"], RF={k: p[f"RF_{k}"] for k in ["op", "cl", "st", "mat", "eu"]},
-                   Nx=Nx), open("final_design.json", "w"), indent=2, ensure_ascii=False)
+                   Nx=Nx), "final_design.json", indent=2, ensure_ascii=False)
     print("\nSaved final_design.json")

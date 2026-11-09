@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from safe_save import save_csv, save_fig
 from step1 import geo, S, chord, y_tip
 
 # ---- Data (brief p.2) ----
@@ -87,8 +88,8 @@ if __name__ == "__main__":
     print(f"  Strip method  M = {M6:.2f} kNm  -> ultimate Nx = {Nx(M6):.1f} N/mm")
     print(f"  Exact integr. M = {M6_exact:.2f} kNm  -> ultimate Nx = {Nx(M6_exact):.1f} N/mm")
 
-    geo.to_csv("loads_elements.csv", float_format="%.4f")
-    loads.to_csv("loads_sf_bm_t.csv", index=False, float_format="%.4f")
+    save_csv(geo, "loads_elements.csv", float_format="%.4f")
+    save_csv(loads, "loads_sf_bm_t.csv", index=False, float_format="%.4f")
 
     fig, axes = plt.subplots(3, 1, figsize=(7, 9), sharex=True)
     for ax, col, lab in zip(axes, ["SF", "BM", "T"],
@@ -104,5 +105,5 @@ if __name__ == "__main__":
     axes[-1].set_xlabel("Spanwise position from aircraft centreline, y (m)")
     axes[-1].set_xlim(0.8, y_tip)
     fig.tight_layout()
-    fig.savefig("fig_sf_bm_t.png", dpi=200)
+    save_fig(fig, "fig_sf_bm_t.png", dpi=200)
     print("\nSaved loads_elements.csv, loads_sf_bm_t.csv, fig_sf_bm_t.png")
